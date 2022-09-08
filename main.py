@@ -15,15 +15,15 @@ from discord import (
     RawMemberRemoveEvent,
     Emoji,
     Reaction,
-    VersionInfo
+    # VersionInfo
 )
 
 # !-------- Logging --------!
 import logging as log
 log.basicConfig(filename="discord_bot.log", level=log.INFO)
 
-if not discord.version_info == VersionInfo(major=2, minor=0, micro=1, releaselevel='final', serial=0):
-    log.critical("discord.py version is not the one the program was written for. it is recommended to install Version 2.0.1: https://github.com/Rapptz/discord.py")
+#   if not discord.version_info == VersionInfo(major=2, minor=0, micro=1, releaselevel='final', serial=0):
+#       log.critical("discord.py version is not the one the program was written for. it is recommended to install Version 2.0.1: https://github.com/Rapptz/discord.py")
 
 with open("settings.json", "r") as SETTINGS_FILE:
     try:
