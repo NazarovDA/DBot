@@ -96,12 +96,12 @@ class Client(discord.Client):
             975376546376335391 # 'members' channel
         )
         
-        votingsChannel = await self.fetch_channel(__VOTINGS_CHANNEL)
-        for voting in __VOTINGS:
-            message: Message = await votingsChannel.fetch_message(voting)
-            for reaction in message.reactions:
-                reaction: Reaction
-                await reaction.remove(payload.user)
+#       votingsChannel: TextChannel = await self.get_channel(__VOTINGS_CHANNEL)
+#       for voting in __VOTINGS:
+#           message: Message = await votingsChannel.get_partial_message(voting)
+#           for reaction in message.reactions:
+#               reaction: Reaction
+#               await reaction.remove(payload.user)
 
 
         await channel.send(
