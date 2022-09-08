@@ -93,7 +93,7 @@ class Client(discord.Client):
             return
 
         channel: TextChannel = self.get_channel(
-            963514720176967742 # 'welcome' channel
+            975376546376335391 # 'members' channel
         )
         
         votingsChannel = await self.fetch_channel(__VOTINGS_CHANNEL)
@@ -112,7 +112,7 @@ class Client(discord.Client):
 
 if __name__ == "__main__":
     intents = discord.Intents.default()
-    # intents.members = True
+    intents.members = True
     intents.reactions = True
     # intents.messages = True
 
