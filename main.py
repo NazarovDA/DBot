@@ -3,19 +3,10 @@ import discord
 from discord import (
     Message,
     Member, 
-    VoiceState, 
-    Guild, 
-    VoiceChannel, 
     TextChannel, 
-    Role,
-    VoiceClient,
     RawReactionActionEvent,
-    RawReactionClearEvent,
-    Attachment,
     RawMemberRemoveEvent,
-    Emoji,
     Reaction,
-    # VersionInfo
 )
 
 import traceback
