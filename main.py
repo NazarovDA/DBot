@@ -27,8 +27,8 @@ with open("settings.json", "r") as SETTINGS_FILE:
         SETTINGS = SETTINGS_FILE.SETTINGS
 
 
-__VOTINGS_CHANNEL = 974968723221917696
-__VOTINGS = {
+VOTINGS_CHANNEL = 974968723221917696
+VOTINGS = {
     # Fleurino's message about main builds
     983857007343857705: {
         "🛡️": 1000435488664072193, # tank
@@ -60,10 +60,10 @@ class Client(discord.Client):
             print("Reaction processing is not allowed")
             return
 
-        if payload.channel_id == __VOTINGS_CHANNEL: # demographics channel id 
+        if payload.channel_id == VOTINGS_CHANNEL: # demographics channel id 
             member: Member = payload.member
             try:
-                role = __VOTINGS[payload.message_id][payload.emoji.name] # gather role from _VOTINGS
+                role = VOTINGS[payload.message_id][payload.emoji.name] # gather role from _VOTINGS
 
                 if role == None: return
 
@@ -89,8 +89,8 @@ class Client(discord.Client):
             975376546376335391 # 'members' channel
         )
         
-        votingsChannel: TextChannel = self.get_channel(__VOTINGS_CHANNEL)
-        for voting in __VOTINGS:
+        votingsChannel: TextChannel = self.get_channel(VOTINGS_CHANNEL)
+        for voting in VOTINGS:
             message: Message = await votingsChannel.fetch_message(voting)
             for reaction in message.reactions:
                 reaction: Reaction
