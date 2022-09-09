@@ -71,7 +71,7 @@ class Client(discord.Client):
                 if role == None: return
 
                 await member.add_roles(
-                    role,
+                    self.guilds[0].get_role(role),
                     reason=f"Answered to voting {payload.message_id}"
                 )
             except Exception as e: print(e)
@@ -100,8 +100,8 @@ class Client(discord.Client):
         roles = [self.guilds[0].get_role(role).name for role in [role.id for role in payload.user.roles] if role in list(VOTINGS[983857007343857705].values())]
 
         embed = Embed(
-            title=f"**{payload.user.nick if payload.user.nick else ''}**({payload.user.name}{payload.user.discriminator}) has left.",
-            description=f"{'They were ' *roles if roles.__len__() > 0 else ''}"
+            title=(f"**{payload.user.nick}** ({payload.user.name}#{payload.user.discriminator})" if payload.user.nick else f"**{payload.user.name}#{payload.user.discriminator}**") + " has left.",
+            description=f"{'They were ' + ', '.join(roles) + '.' if roles.__len__() > 0 else ''}"
         )
 
         await channel.send(
