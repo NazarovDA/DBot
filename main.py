@@ -56,7 +56,7 @@ class Client(discord.Client):
 
     async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
         # intents.reactions is required
-        if not self.intents.reactions(): 
+        if not self.intents.reactions: 
             print("Reaction processing is not allowed")
             return
 
@@ -81,7 +81,7 @@ class Client(discord.Client):
 
     async def on_raw_member_remove(self, payload: RawMemberRemoveEvent): 
         # intent.members is required
-        if not self.intents.members(): 
+        if not self.intents.members: 
             print("Members processing is not allowed")
             return
 
