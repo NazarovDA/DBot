@@ -102,7 +102,7 @@ class Client(discord.Client):
         )
 
     async def on_error(self, event, *args, **kwargs): 
-        log.error(f"{event=}\n{args=}\n{kwargs=}\n--TRACEBACK--\n{traceback.format_exc()}")
+        log.error(f"{event=}\n{args=}\n{kwargs=}\n--TRACEBACK--\n{traceback.format_exc()}\n\n")
 
 if __name__ == "__main__":
     intents = discord.Intents.default()
