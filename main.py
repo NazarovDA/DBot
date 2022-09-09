@@ -65,16 +65,14 @@ class Client(discord.Client):
 
         if payload.channel_id == VOTINGS_CHANNEL: # demographics channel id 
             member: Member = payload.member
-            try:
-                role = VOTINGS[payload.message_id][payload.emoji.name] # gather role from _VOTINGS
+            role = VOTINGS[payload.message_id][payload.emoji.name] # gather role from _VOTINGS
 
-                if role == None: return
+            if role == None: return
 
-                await member.add_roles(
-                    self.guilds[0].get_role(role),
-                    reason=f"Answered to voting {payload.message_id}"
-                )
-            except Exception as e: print(e)
+            await member.add_roles(
+                self.guilds[0].get_role(role),
+                reason=f"Answered to voting {payload.message_id}"
+            )
 
     async def on_member_join(self, member):
         # intent.members is required
