@@ -18,6 +18,8 @@ from discord import (
     # VersionInfo
 )
 
+import traceback
+
 # !-------- Logging --------!
 import logging as log
 log.basicConfig(filename="discord_bot.log", level=log.INFO)
@@ -108,7 +110,8 @@ class Client(discord.Client):
             content=f"{payload.user.nick}({payload.user.name}) has left."
         )
 
-    async def on_error(self, event, *args, **kwargs): log.error(f"{event}----\n{args}----\n{kwargs}")
+    async def on_error(self, event, *args, **kwargs): 
+        log.error(f"{event=}\n{args=}\n{kwargs=}\n--TRACEBACK--\n{traceback.format_exc()}")
 
 if __name__ == "__main__":
     intents = discord.Intents.default()
