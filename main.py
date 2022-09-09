@@ -97,13 +97,8 @@ class Client(discord.Client):
 
         roles = [self.guilds[0].get_role(role).name for role in [role.id for role in payload.user.roles] if role in list(VOTINGS[983857007343857705].values())]
 
-        embed = Embed(
-            title=(f"**{payload.user.nick}** ({payload.user.name}#{payload.user.discriminator})" if payload.user.nick else f"**{payload.user.name}#{payload.user.discriminator}**") + " has left.",
-            description=f"{'They were ' + ', '.join(roles) + '.' if roles.__len__() > 0 else ''}"
-        )
-
         await channel.send(
-            embed=embed
+            content = (f"**{payload.user.nick}** ({payload.user.name}#{payload.user.discriminator})" if payload.user.nick else f"**{payload.user.name}#{payload.user.discriminator}**") + " has left." + f"{' They were ' + ', '.join(roles) + '.' if roles.__len__() > 0 else ''}"
         )
 
     async def on_error(self, event, *args, **kwargs): 
