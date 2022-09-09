@@ -7,6 +7,7 @@ from discord import (
     RawReactionActionEvent,
     RawMemberRemoveEvent,
     Reaction,
+    Embed,
 )
 
 import traceback
@@ -18,13 +19,15 @@ log.basicConfig(filename="discord_bot.log", level=log.INFO)
 #   if not discord.version_info == VersionInfo(major=2, minor=0, micro=1, releaselevel='final', serial=0):
 #       log.critical("discord.py version is not the one the program was written for. it is recommended to install Version 2.0.1: https://github.com/Rapptz/discord.py")
 
-with open("settings.json", "r") as SETTINGS_FILE:
-    try:
+try:
+    with open("settings.json", "r") as SETTINGS_FILE:
         import json
         SETTINGS = json.load(SETTINGS_FILE)
-    except:
+except:
+    try:
         import settings as SETTINGS_FILE
         SETTINGS = SETTINGS_FILE.SETTINGS
+    except: ...
 
 
 VOTINGS_CHANNEL = 974968723221917696
@@ -68,9 +71,7 @@ class Client(discord.Client):
                 if role == None: return
 
                 await member.add_roles(
-                    roles=[
-                        role
-                    ],
+                    role,
                     reason=f"Answered to voting {payload.message_id}"
                 )
             except Exception as e: print(e)
@@ -96,9 +97,15 @@ class Client(discord.Client):
                 reaction: Reaction
                 await reaction.remove(payload.user)
 
+        roles = [self.guilds[0].get_role(role).name for role in [role.id for role in payload.user.roles] if role in list(VOTINGS[983857007343857705].values())]
+
+        embed = Embed(
+            title=f"**{payload.user.nick if payload.user.nick else ''}**({payload.user.name}{payload.user.discriminator}) has left.",
+            description=f"{'They were ' *roles if roles.__len__() > 0 else ''}"
+        )
 
         await channel.send(
-            content=f"{payload.user.nick}({payload.user.name}) has left."
+            embed=embed
         )
 
     async def on_error(self, event, *args, **kwargs): 
