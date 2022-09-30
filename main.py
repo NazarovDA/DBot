@@ -47,8 +47,8 @@ VOTINGS = {
     },
     # Fleurino's message about av. gear score
     1000434698201346068: {
-        "🐣": None, # i do not know what to do
-        "🐤": None, # i do not know what to do
+        "🐣": 1024326266763100253, # expeditioner role
+        "🐤": 1001095283372998716, # mutator role
         "🐦": 1001095283372998716, # mutator role
     }
 }
