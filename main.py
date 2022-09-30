@@ -8,6 +8,7 @@ from discord import (
     RawMemberRemoveEvent,
     Reaction,
     Embed,
+    Guild
 )
 
 import traceback
@@ -54,8 +55,20 @@ VOTINGS = {
 }
 
 class Client(discord.Client):
+    async def clear_leavers(self) -> None:
+        channel: TextChannel = await self.get_channel(VOTINGS_CHANNEL)
+        guild: Guild = self.get_guild(962652774879866921) # guild ID
+        for voting in VOTINGS:
+            message: Message = await channel.fetch_message(voting)
+            for reaction in message.reactions:
+                reaction: Reaction
+                for user in await reaction.users():
+                    if not guild.get_member(user):
+                        await reaction.remove(user)
+
     async def on_ready(self):
         print(f'logged as {self.user}')
+        await self.clear_leavers()
 
     async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
         # intents.reactions is required
