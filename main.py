@@ -36,10 +36,8 @@ VOTINGS = {
     # Fleurino's message about main builds
     983857007343857705: {
         "🛡️": 1000435488664072193, # tank
-        "🪓": 1000435920044044339, # dps role
+        "🗡️": 1000435920044044339, # dps role
         "💊": 1000435736690040852, # healer
-        "🪄": 1000435920044044339, # dps role
-        "🏹": 1000435920044044339, # dps role
     },
     # Fleurino's message about PvP/PvE
     988482120857026650: {
@@ -48,9 +46,8 @@ VOTINGS = {
     },
     # Fleurino's message about av. gear score
     1000434698201346068: {
-        "🐣": 1024326266763100253, # expeditioner role
-        "🐤": 1001095283372998716, # mutator role
-        "🐦": 1001095283372998716, # mutator role
+        "🐣": None, # nothing
+        "🐓": 1001095283372998716, # mutator role
     }
 }
 
