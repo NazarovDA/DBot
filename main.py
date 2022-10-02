@@ -52,7 +52,7 @@ VOTINGS = {
 }
 
 class Client(discord.Client):
-    async def clear_leavers(self) -> None:
+    async def clear_leavers_and_give_roles(self) -> None:
         channel: TextChannel = await self.get_channel(VOTINGS_CHANNEL)
         guild: Guild = self.get_guild(962652774879866921) # guild ID
         for voting in VOTINGS:
@@ -60,8 +60,14 @@ class Client(discord.Client):
             for reaction in message.reactions:
                 reaction: Reaction
                 for user in await reaction.users():
-                    if not guild.get_member(user):
+                    member = guild.get_member(user)
+                    if not member:
                         await reaction.remove(user)
+                    elif member and (role := guild.get_role(VOTINGS) not in member.roles):
+                        await member.add_roles(
+                            role
+                        )
+                    
 
     async def on_ready(self):
         print(f'logged as {self.user}')
