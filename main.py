@@ -70,7 +70,7 @@ class Client(discord.Client):
 
     async def on_ready(self):
         print(f'logged as {self.user}')
-        await self.clear_leavers()
+        await self.clear_leavers_and_give_roles()
 
     async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
         # intents.reactions is required
