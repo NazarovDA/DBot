@@ -85,6 +85,9 @@ class Client(discord.Client):
             member: Member = self.guilds[0].get_member(
                 payload.user_id
             )
+
+            if member == None: return
+
             await member.remove_roles(
                 self.guilds[0].get_role(
                     VOTINGS[payload.message_id][payload.emoji.name]
