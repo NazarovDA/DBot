@@ -93,6 +93,14 @@ class Client(discord.Client):
         # intent.members is required
         ... 
 
+    async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
+        if payload.channel_id != VOTINGS_CHANNEL: return
+        await payload.member.remove_roles(
+            self.guilds[0].get_role(
+                VOTINGS[payload.message_id][payload.emoji.name]
+            )
+        )
+
     async def on_raw_member_remove(self, payload: RawMemberRemoveEvent): 
         # intent.members is required
         if not self.intents.members: 
