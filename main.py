@@ -111,7 +111,7 @@ class Client(discord.Client):
         roles = [
                 self.guilds[0].get_role(role).name 
                 for role 
-                in [role.id for role in payload.user.roles] if role in list(VOTINGS[983857007343857705].values() + VOTINGS[1000434698201346068].values())
+                in [role.id for role in payload.user.roles] if role in list(VOTINGS[983857007343857705].values()) + list(VOTINGS[1000434698201346068].values())
             ]
 
         await channel.send(
