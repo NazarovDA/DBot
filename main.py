@@ -41,8 +41,9 @@ VOTINGS = {
     },
     # Fleurino's message about PvP/PvE
     988482120857026650: {
-        "⚔️": None, # i do not know what to do
         "😇": None, # i do not know what to do
+        "⚔️": None, # i do not know what to do
+        "😈": None, # i do not know what to do
     },
     # Fleurino's message about av. gear score
     1000434698201346068: {
