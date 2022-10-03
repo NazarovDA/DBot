@@ -53,7 +53,7 @@ VOTINGS = {
 
 class Client(discord.Client):
     async def clear_leavers_and_give_roles(self) -> None:
-        channel: TextChannel = await self.get_channel(VOTINGS_CHANNEL)
+        channel: TextChannel = self.get_channel(VOTINGS_CHANNEL)
         guild: Guild = self.get_guild(962652774879866921) # guild ID
         for voting in VOTINGS:
             message: Message = await channel.fetch_message(voting)
