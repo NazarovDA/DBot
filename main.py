@@ -130,7 +130,7 @@ class Client(discord.Client):
 
         if message.channel.id == TOURNAMENT_CHANNEL_ID:
             if message.content.startswith("!"):
-                if message.content[1:].startswith("teams"): 
+                if message.content.startswith("!teams"): 
                     await message.reply(
                         "Teams are:\n" + f"Team {i + 1}: {prepare_team(team)}" for i, team in enumerate(TOURNAMENT_INFO['teams'])
                     )
