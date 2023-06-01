@@ -40,7 +40,8 @@ try:
         TOURNAMENT_INFO = json.load(FILE)
 except FileNotFoundError:
     TOURNAMENT_INFO = {
-        "players": []
+        "players": [],
+        "members": []
     }
 
 TOURNAMENT_REGISTER_MESSAGE_ID: int = 1113922644199354488
