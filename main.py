@@ -13,6 +13,8 @@ from discord import (
 
 import traceback
 
+from random import shuffle
+
 # !-------- Logging --------!
 import logging as log
 log.basicConfig(filename="discord_bot.log", level=log.INFO)
@@ -31,6 +33,18 @@ except:
     except: ...
 
 
+import json
+
+try:
+    with open("tournament.json", "r") as FILE:
+        TOURNAMENT_INFO = json.load(FILE)
+except FileNotFoundError:
+    TOURNAMENT_INFO = {
+        "players": []
+    }
+
+TOURNAMENT_REGISTER_MESSAGE_ID: int = 0
+TOURNAMENT_CHANNEL_ID = 1089216328725962853
 VOTINGS_CHANNEL = 974968723221917696
 VOTINGS = {
     # Fleurino's message about main builds
@@ -63,6 +77,23 @@ VOTINGS = {
     }
 }
 
+
+def create_teams():
+    shuffle(TOURNAMENT_INFO["members"])
+
+    players: list[int] = TOURNAMENT_INFO["members"]
+
+    l = len(players)
+
+    TOURNAMENT_INFO["teams"] = [[players[x], players[x+1]] for x in range(0, l if l % 2 == 0 else l-1, 2)]
+
+    
+
+def save_tour_data():
+    with open("tournament.json", "w") as FILE:
+        json.dump(obj=TOURNAMENT_INFO, fp=FILE)
+
+
 class Client(discord.Client):
     async def on_ready(self):
         print(f'logged as {self.user}')
@@ -83,6 +114,27 @@ class Client(discord.Client):
                 self.guilds[0].get_role(role),
                 reason=f"Answered to voting {payload.message_id}"
             )
+
+        if payload.message_id == TOURNAMENT_REGISTER_MESSAGE_ID:
+            member: Member = payload.member
+
+            if member.id not in TOURNAMENT_INFO['members']:
+                TOURNAMENT_INFO["members"].append(member.id)
+                create_teams()
+                save_tour_data()
+
+    async def on_message(self, message: Message):
+        def prepare_team(team: list[int]):
+            return f"player 1: {self.get_user(team[0]).name}, player 2: {self.get_user(team[1]).name}"
+
+        if message.channel.id == TOURNAMENT_CHANNEL_ID:
+            if message.content.startswith("!"):
+                if message.content[1:].startswith("teams"): 
+                    await message.reply(
+                        "Teams are:\n" + f"Team {i + 1}: {prepare_team(team)}" for i, team in enumerate(TOURNAMENT_INFO['teams'])
+                    )
+                    
+
 
     async def on_member_join(self, member):
         # intent.members is required
