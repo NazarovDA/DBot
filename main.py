@@ -40,7 +40,6 @@ try:
         TOURNAMENT_INFO = json.load(FILE)
 except FileNotFoundError:
     TOURNAMENT_INFO = {
-        "players": [],
         "members": []
     }
 
@@ -129,6 +128,7 @@ class Client(discord.Client):
             return f"player 1: {self.get_user(team[0]).name}, player 2: {self.get_user(team[1]).name}"
 
         if message.channel.id == TOURNAMENT_CHANNEL_ID:
+            print(message.content)
             if message.content.startswith("!"):
                 if message.content.startswith("!teams"): 
                     await message.reply(
