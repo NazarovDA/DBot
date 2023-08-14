@@ -17,6 +17,8 @@ from random import shuffle
 
 # !-------- Logging --------!
 import logging as log
+import re
+import random
 log.basicConfig(filename="discord_bot.log", level=log.INFO)
 
 #   if not discord.version_info == VersionInfo(major=2, minor=0, micro=1, releaselevel='final', serial=0):
@@ -42,6 +44,8 @@ except FileNotFoundError:
     TOURNAMENT_INFO = {
         "members": []
     }
+
+DICE_ROLL_REGEX = re.compile("\!roll [1-9]\d?[d][1-9]\d?")
 
 TOURNAMENT_REGISTER_MESSAGE_ID: int = 1113922644199354488
 TOURNAMENT_CHANNEL_ID               = 1089216328725962853
@@ -123,6 +127,8 @@ class Client(discord.Client):
                 create_teams()
                 save_tour_data()
 
+
+
     async def on_message(self, message: Message):
         if not self.intents.message_content:
             print("messages are not allowed")
@@ -131,6 +137,21 @@ class Client(discord.Client):
             return f"player 1: {self.guilds[0].get_member(team[0]).display_name}, player 2: {self.guilds[0].get_member(team[1]).display_name}"
         if message.channel.id == TOURNAMENT_CHANNEL_ID:
             if message.content.startswith("!"):
+        def roll_a_dice(count, max):
+            ans = f"Your roll{'' if count < 2 else 's'}:"
+            for x in range(count):
+                ans+=f"\nRoll {x+1}: {random.randint(1, max)}"
+            return ans
+        
+        def prepare_team(team: list[int]):
+            return f"player 1: {self.guilds[0].get_member(team[0]).display_name}, player 2: {self.guilds[0].get_member(team[1]).name}"
+        print(message.content)
+    
+        if message.content.startswith("!"):
+            if DICE_ROLL_REGEX.fullmatch(message.content):
+                await message.reply(roll_a_dice(*list(map(lambda x: int(x), message.content.split(" ")[1].split("d")))))
+                return
+            if message.channel.id == TOURNAMENT_CHANNEL_ID:
                 if message.content.startswith("!teams"): 
                     await message.reply(
                         "".join("Teams are:\n" + f"Team {i + 1}: {prepare_team(team)}" for i, team in enumerate(TOURNAMENT_INFO['teams']))
