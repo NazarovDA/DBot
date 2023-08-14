@@ -1,9 +1,9 @@
-import discord 
+import discord
 
 from discord import (
     Message,
-    Member, 
-    TextChannel, 
+    Member,
+    TextChannel,
     RawReactionActionEvent,
     RawMemberRemoveEvent,
     Reaction,
@@ -77,7 +77,7 @@ VOTINGS = {
         "💍": 1046915774310264832, # Jewelcrafter
         "✨": 1046909301500948561, # Arcanist
         "🪑": 1046909240800981132, # Furnisher
-        "🧑‍🍳": 1046909379783438399, # Chef 
+        "🧑‍🍳": 1046909379783438399, # Chef
     }
 }
 
@@ -91,7 +91,7 @@ def create_teams():
 
     TOURNAMENT_INFO["teams"] = [[players[x], players[x+1]] for x in range(0, l if l % 2 == 0 else l-1, 2)]
 
-    
+
 
 def save_tour_data():
     with open("tournament.json", "w") as FILE:
@@ -104,11 +104,11 @@ class Client(discord.Client):
 
     async def on_raw_reaction_add(self, payload: RawReactionActionEvent):
         # intents.reactions is required
-        if not self.intents.reactions: 
+        if not self.intents.reactions:
             print("Reaction processing is not allowed")
             return
 
-        if payload.channel_id == VOTINGS_CHANNEL: # demographics channel id 
+        if payload.channel_id == VOTINGS_CHANNEL: # demographics channel id
             member: Member = payload.member
             role = VOTINGS[payload.message_id][payload.emoji.name] # gather role from _VOTINGS
 
@@ -135,36 +135,34 @@ class Client(discord.Client):
             return
         def prepare_team(team: list[int]):
             return f"player 1: {self.guilds[0].get_member(team[0]).display_name}, player 2: {self.guilds[0].get_member(team[1]).display_name}"
-        if message.channel.id == TOURNAMENT_CHANNEL_ID:
-            if message.content.startswith("!"):
+                 
         def roll_a_dice(count, max):
             ans = f"Your roll{'' if count < 2 else 's'}:"
             for x in range(count):
                 ans+=f"\nRoll {x+1}: {random.randint(1, max)}"
             return ans
-        
+
         def prepare_team(team: list[int]):
             return f"player 1: {self.guilds[0].get_member(team[0]).display_name}, player 2: {self.guilds[0].get_member(team[1]).name}"
         print(message.content)
-    
+
         if message.content.startswith("!"):
             if DICE_ROLL_REGEX.fullmatch(message.content):
                 await message.reply(roll_a_dice(*list(map(lambda x: int(x), message.content.split(" ")[1].split("d")))))
-                return
             if message.channel.id == TOURNAMENT_CHANNEL_ID:
-                if message.content.startswith("!teams"): 
+                if message.content.startswith("!teams"):
                     await message.reply(
                         "".join("Teams are:\n" + f"Team {i + 1}: {prepare_team(team)}" for i, team in enumerate(TOURNAMENT_INFO['teams']))
                     )
-                    
+
 
 
     async def on_member_join(self, member):
         # intent.members is required
-        ... 
+        ...
 
     async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
-        if not self.intents.reactions: 
+        if not self.intents.reactions:
             print("Reaction processing is not allowed")
             return
 
@@ -181,16 +179,16 @@ class Client(discord.Client):
                 )
             )
 
-    async def on_raw_member_remove(self, payload: RawMemberRemoveEvent): 
+    async def on_raw_member_remove(self, payload: RawMemberRemoveEvent):
         # intent.members is required
-        if not self.intents.members: 
+        if not self.intents.members:
             print("Members processing is not allowed")
             return
 
         channel: TextChannel = self.get_channel(
             975376546376335391 # 'members' channel
         )
-        
+
         votingsChannel: TextChannel = self.get_channel(VOTINGS_CHANNEL)
         for voting in VOTINGS:
             message: Message = await votingsChannel.fetch_message(voting)
@@ -199,8 +197,8 @@ class Client(discord.Client):
                 await reaction.remove(payload.user)
 
         roles = [
-                self.guilds[0].get_role(role).name 
-                for role 
+                self.guilds[0].get_role(role).name
+                for role
                 in [role.id for role in payload.user.roles] if role in list(VOTINGS[983857007343857705].values()) + list(VOTINGS[1000434698201346068].values())
             ]
 
@@ -208,7 +206,7 @@ class Client(discord.Client):
             content = (f"**{payload.user.nick}** ({payload.user.name}#{payload.user.discriminator})" if payload.user.nick else f"**{payload.user.name}#{payload.user.discriminator}**") + " has left." + f"{' They were ' + ', '.join(roles) + '.' if roles.__len__() > 0 else ''}"
         )
 
-    async def on_error(self, event, *args, **kwargs): 
+    async def on_error(self, event, *args, **kwargs):
         log.error(f"{event=}\n{args=}\n{kwargs=}\n--TRACEBACK--\n{traceback.format_exc()}\n\n")
 
 if __name__ == "__main__":
