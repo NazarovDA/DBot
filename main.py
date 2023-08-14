@@ -124,15 +124,16 @@ class Client(discord.Client):
                 save_tour_data()
 
     async def on_message(self, message: Message):
+        if not self.intents.message_content:
+            print("messages are not allowed")
+            return
         def prepare_team(team: list[int]):
-            return f"player 1: {self.get_user(team[0]).name}, player 2: {self.get_user(team[1]).name}"
-
+            return f"player 1: {self.guilds[0].get_member(team[0]).display_name}, player 2: {self.guilds[0].get_member(team[1]).display_name}"
         if message.channel.id == TOURNAMENT_CHANNEL_ID:
-            print(message.content)
             if message.content.startswith("!"):
                 if message.content.startswith("!teams"): 
                     await message.reply(
-                        "Teams are:\n" + f"Team {i + 1}: {prepare_team(team)}" for i, team in enumerate(TOURNAMENT_INFO['teams'])
+                        "".join("Teams are:\n" + f"Team {i + 1}: {prepare_team(team)}" for i, team in enumerate(TOURNAMENT_INFO['teams']))
                     )
                     
 
@@ -193,7 +194,7 @@ if __name__ == "__main__":
     intents = discord.Intents.default()
     intents.members = True
     intents.reactions = True
-    # intents.messages = True
+    intents.message_content = True
 
     client = Client(intents=intents)
     client.run(SETTINGS["TOKEN"])

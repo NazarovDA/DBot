@@ -3,3 +3,7 @@
 /Scripts
 pyvenv.cfg
 test.py
+*.txt
+*.json
+*.example
+
