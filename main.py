@@ -144,7 +144,7 @@ class Client(discord.Client):
 
         def prepare_team(team: list[int]):
             return f"player 1: {self.guilds[0].get_member(team[0]).display_name}, player 2: {self.guilds[0].get_member(team[1]).name}"
-        print(message.content)
+        #print(message.content)
 
         if message.content.startswith("!"):
             if DICE_ROLL_REGEX.fullmatch(message.content):
