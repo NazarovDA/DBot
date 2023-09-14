@@ -83,26 +83,29 @@ VOTINGS = {
 
 from asyncio import sleep
 
-DICE_ROLLERS: list = []
+
 ROLL_SLEEP_SECONDS = 5
-
-class RollADiceView(discord.ui.View):
-    @discord.ui.button(label="Roll some dice!", style=discord.ButtonStyle.success, emoji="😎")
+from discord.ui import View, button
+class RollADiceView(View):
+    def __init__(self):
+        self.DICE_ROLLERS: list = []
+        super().__init__(timeout=ROLL_SLEEP_SECONDS)
+    
+    @button(label="Roll some dice!", style=discord.ButtonStyle.success, emoji="😎")
     async def button_callback(self, interaction: discord.Interaction, button):
+        self.DICE_ROLLERS.append(interaction.user.nick)
 
-        # print(type(button))
-        # print(type(interaction))
+    async def on_timeout(self) -> None:
+        self.disable_all_items()
 
-        DICE_ROLLERS.append(interaction.user.nick)
+        mes = ""
+        for roller in self.DICE_ROLLERS:
+            mes += f"{roller} rolled {random.randint(1, 8)}"
 
-        if len(DICE_ROLLERS) == 1:
-            await sleep(ROLL_SLEEP_SECONDS)
-            big_string = ""
-            for nick in DICE_ROLLERS:
-                big_string += f"{nick} rolled {random.randint(1, 8)}\n"
+        await self.message.edit(
+            content=mes
+        )
 
-            await interaction.channel.send(big_string)    
-            DICE_ROLLERS.clear()
 
 def create_teams():
     shuffle(TOURNAMENT_INFO["members"])
