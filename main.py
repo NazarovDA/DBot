@@ -94,6 +94,7 @@ class RollADiceView(View):
     @button(label="Roll some dice!", style=discord.ButtonStyle.success, emoji="😎")
     async def button_callback(self, interaction: discord.Interaction, button):
         self.DICE_ROLLERS.append(interaction.user.nick)
+        await interaction.response.send_message(f"Result will be there in {ROLL_SLEEP_SECONDS} secs.")
 
     async def on_timeout(self) -> None:
         self.disable_all_items()
