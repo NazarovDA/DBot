@@ -83,27 +83,24 @@ VOTINGS = {
 
 from asyncio import sleep
 
-
+DICE_ROLLERS = []
 ROLL_SLEEP_SECONDS = 5
 from discord.ui import View, button
 class RollADiceView(View):
-    def __init__(self):
-        self.DICE_ROLLERS: list = []
-        super().__init__()
-    
     @button(label="Roll some dice!", style=discord.ButtonStyle.success, emoji="😎")
     async def button_callback(self, interaction: discord.Interaction, button):
-        self.DICE_ROLLERS.append(interaction.user.nick)
+        DICE_ROLLERS.append(interaction.user.nick)
         
-        if len(self.DICE_ROLLERS) < 2:
+        if len(DICE_ROLLERS) < 2:
             await sleep(ROLL_SLEEP_SECONDS)
 
             m = ""
-            for roll in self.DICE_ROLLERS:
+            for roll in DICE_ROLLERS:
                 m += f"{roll} rolled {random.randint(1, 8)}\n"
 
             await interaction.channel.send(m)
             button.disabled = True
+            DICE_ROLLERS.clear()
     
 
 
