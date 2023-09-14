@@ -103,7 +103,7 @@ class RollADiceView(View):
             mes += f"{roller} rolled {random.randint(1, 8)}"
 
         await self.message.edit(
-            content=mes
+            content=mes, view=self
         )
 
 
