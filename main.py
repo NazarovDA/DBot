@@ -91,6 +91,9 @@ class RollADiceView(discord.ui.View):
     async def button_callback(self, button, interaction: discord.Interaction):
         DICE_ROLLERS.append(interaction.user.nick)
 
+        print(type(button))
+        print(type(interaction))
+
         if len(DICE_ROLLERS) == 1:
             await sleep(ROLL_SLEEP_SECONDS)
             big_string = ""
