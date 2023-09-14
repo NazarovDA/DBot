@@ -89,10 +89,13 @@ ROLL_SLEEP_SECONDS = 5
 class RollADiceView(discord.ui.View):
     @discord.ui.button(label="Roll A Dice!", style=discord.ButtonStyle.success, emoji="😎")
     async def button_callback(self, button, interaction: discord.Interaction):
-        DICE_ROLLERS.append(interaction.user.nick)
 
         print(type(button))
         print(type(interaction))
+
+        DICE_ROLLERS.append(interaction.user.nick)
+
+        
 
         if len(DICE_ROLLERS) == 1:
             await sleep(ROLL_SLEEP_SECONDS)
