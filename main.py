@@ -89,6 +89,7 @@ from discord.ui import View, button
 class RollADiceView(View):
     def __init__(self):
         self.DICE_ROLLERS: list = []
+        super().__init__()
     
     @button(label="Roll some dice!", style=discord.ButtonStyle.success, emoji="😎")
     async def button_callback(self, interaction: discord.Interaction, button):
