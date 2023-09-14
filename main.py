@@ -83,7 +83,7 @@ VOTINGS = {
 
 from asyncio import sleep
 
-DICE_ROLLERS = []
+DICE_ROLLERS: list = []
 ROLL_SLEEP_SECONDS = 5
 
 class RollADiceView(discord.ui.View):
@@ -101,9 +101,8 @@ class RollADiceView(discord.ui.View):
             for nick in DICE_ROLLERS:
                 big_string += f"{nick} rolled {random.randint(1, 8)}\n"
 
-            await interaction.channel.send(big_string)
-            DICE_ROLLERS = []     
-
+            await interaction.channel.send(big_string)    
+            DICE_ROLLERS.clear()
 
 def create_teams():
     shuffle(TOURNAMENT_INFO["members"])
