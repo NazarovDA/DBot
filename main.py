@@ -89,23 +89,21 @@ from discord.ui import View, button
 class RollADiceView(View):
     def __init__(self):
         self.DICE_ROLLERS: list = []
-        super().__init__(timeout=ROLL_SLEEP_SECONDS)
     
     @button(label="Roll some dice!", style=discord.ButtonStyle.success, emoji="😎")
     async def button_callback(self, interaction: discord.Interaction, button):
         self.DICE_ROLLERS.append(interaction.user.nick)
-        await interaction.response.send_message(f"Result will be there in {ROLL_SLEEP_SECONDS} secs.")
+        
+        if len(self.DICE_ROLLERS) < 2:
+            await sleep(ROLL_SLEEP_SECONDS)
 
-    async def on_timeout(self) -> None:
-        self.disable_all_items()
+            m = ""
+            for roll in self.DICE_ROLLERS:
+                m += f"{roll} rolled {random.randint(1, 8)}\n"
 
-        mes = ""
-        for roller in self.DICE_ROLLERS:
-            mes += f"{roller} rolled {random.randint(1, 8)}"
-
-        await self.message.edit(
-            content=mes, view=self
-        )
+            await interaction.channel.send(m)
+            button.disabled = True
+    
 
 
 def create_teams():
