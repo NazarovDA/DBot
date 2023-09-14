@@ -102,7 +102,7 @@ class RollADiceView(discord.ui.View):
                 big_string += f"{nick} rolled {random.randint(1, 8)}\n"
 
             await interaction.channel.send(big_string)
-                  
+            DICE_ROLLERS = []     
 
 
 def create_teams():
