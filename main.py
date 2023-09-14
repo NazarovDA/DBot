@@ -81,6 +81,25 @@ VOTINGS = {
     }
 }
 
+from asyncio import sleep
+
+DICE_ROLLERS = []
+ROLL_SLEEP_SECONDS = 5
+
+class RollADiceView(discord.ui.View):
+    @discord.ui.button(label="Roll A Dice!", style=discord.ButtonStyle.success, emoji="😎")
+    async def button_callback(self, button, interaction: discord.Interaction):
+        DICE_ROLLERS.append(interaction.user.nick)
+
+        if len(DICE_ROLLERS) == 1:
+            await sleep(ROLL_SLEEP_SECONDS)
+            big_string = ""
+            for nick in DICE_ROLLERS:
+                big_string += f"{nick} rolled {random.randint(1, 8)}\n"
+
+            await interaction.channel.send(big_string)
+                  
+
 
 def create_teams():
     shuffle(TOURNAMENT_INFO["members"])
@@ -149,6 +168,8 @@ class Client(discord.Client):
         if message.content.startswith("!"):
             if DICE_ROLL_REGEX.fullmatch(message.content):
                 await message.reply(roll_a_dice(*list(map(lambda x: int(x), message.content.split(" ")[1].split("d")))))
+            if message.content.startswith("!race"):
+                await message.channel.send(view=RollADiceView)
             if message.channel.id == TOURNAMENT_CHANNEL_ID:
                 if message.content.startswith("!teams"):
                     await message.reply(
