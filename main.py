@@ -45,7 +45,7 @@ except FileNotFoundError:
         "members": []
     }
 
-DICE_ROLL_REGEX = re.compile("\!roll \d*[d]\d*")
+DICE_ROLL_REGEX = re.compile("\!roll \d{1,2}[d]\d*")
 
 TOURNAMENT_REGISTER_MESSAGE_ID: int = 1113922644199354488
 TOURNAMENT_CHANNEL_ID               = 1089216328725962853
