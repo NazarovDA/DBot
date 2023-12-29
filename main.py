@@ -102,24 +102,6 @@ class RollADiceView(View):
             button.disabled = True
             
             DICE_ROLLERS.clear()
-    
-
-
-def create_teams():
-    shuffle(TOURNAMENT_INFO["members"])
-
-    players: list[int] = TOURNAMENT_INFO["members"]
-
-    l = len(players)
-
-    TOURNAMENT_INFO["teams"] = [[players[x], players[x+1]] for x in range(0, l if l % 2 == 0 else l-1, 2)]
-
-
-
-def save_tour_data():
-    with open("tournament.json", "w") as FILE:
-        json.dump(obj=TOURNAMENT_INFO, fp=FILE)
-
 
 class Client(discord.Client):
     async def on_ready(self):
@@ -142,31 +124,18 @@ class Client(discord.Client):
                 reason=f"Answered to voting {payload.message_id}"
             )
 
-        if payload.message_id == TOURNAMENT_REGISTER_MESSAGE_ID:
-            member: Member = payload.member
-
-            if member.id not in TOURNAMENT_INFO['members']:
-                TOURNAMENT_INFO["members"].append(member.id)
-                create_teams()
-                save_tour_data()
-
 
 
     async def on_message(self, message: Message):
         if not self.intents.message_content:
             print("messages are not allowed")
             return
-        def prepare_team(team: list[int]):
-            return f"player 1: {self.guilds[0].get_member(team[0]).display_name}, player 2: {self.guilds[0].get_member(team[1]).display_name}"
                  
         def roll_a_dice(count, max):
             ans = f"Your roll{'' if count < 2 else 's'}:"
             for x in range(count):
                 ans+=f"\nRoll {x+1}: {random.randint(1, max)}"
             return ans
-
-        def prepare_team(team: list[int]):
-            return f"player 1: {self.guilds[0].get_member(team[0]).display_name}, player 2: {self.guilds[0].get_member(team[1]).name}"
         #print(message.content)
 
         if message.content.startswith("!"):
@@ -178,13 +147,6 @@ class Client(discord.Client):
                 # )
             if message.content.startswith("!race"):
                 await message.channel.send(view=RollADiceView())
-            if message.channel.id == TOURNAMENT_CHANNEL_ID:
-                if message.content.startswith("!teams"):
-                    await message.reply(
-                        "".join("Teams are:\n" + f"Team {i + 1}: {prepare_team(team)}" for i, team in enumerate(TOURNAMENT_INFO['teams']))
-                    )
-
-
 
     async def on_member_join(self, member):
         # intent.members is required
