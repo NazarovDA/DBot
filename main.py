@@ -8,12 +8,14 @@ from discord import (
     RawMemberRemoveEvent,
     Reaction,
     Embed,
-    Guild
+    Guild,
+    VoiceState,
+    VoiceChannel
 )
 
 import traceback
 
-from random import shuffle
+from random import shuffle, choice
 
 # !-------- Logging --------!
 import logging as log
@@ -81,11 +83,24 @@ VOTINGS = {
     }
 }
 
+channelNames = [
+    "test1",
+    "test2",
+    "test3",
+    "test4",
+    "test5",
+    "test6",
+]
+
+from discord.ui import View, button
+
 from asyncio import sleep
 
 DICE_ROLLERS = []
 ROLL_SLEEP_SECONDS = 5
-from discord.ui import View, button
+
+temp_channels: list[VoiceChannel] = []
+
 class RollADiceView(View):
     @button(label="Roll some dice!", style=discord.ButtonStyle.success, emoji="😎")
     async def button_callback(self, interaction: discord.Interaction, button):
@@ -124,8 +139,6 @@ class Client(discord.Client):
                 reason=f"Answered to voting {payload.message_id}"
             )
 
-
-
     async def on_message(self, message: Message):
         if not self.intents.message_content:
             print("messages are not allowed")
@@ -151,6 +164,43 @@ class Client(discord.Client):
     async def on_member_join(self, member):
         # intent.members is required
         ...
+
+    async def on_voice_state_update(self, member: Member, before: VoiceState, after: VoiceState):
+        if not self.intents.voice_states: return
+        
+        if after.channel == 1089216373542109265:
+
+            initialChannel = after.channel
+
+            guild = initialChannel.guild
+
+            temp_names = channelNames[:]
+            for vc in temp_channels:
+                if vc.name in temp_names:
+                    temp_names.remove(vc.name)
+
+            VC = await guild.create_voice_channel(
+                name = "Party" + choice(channelNames), 
+                reason = None,
+                category=initialChannel.category,
+                position=initialChannel.position + 1
+            )
+
+            await member.move_to(
+                VC
+            )
+
+            temp_channels.append(VC)
+
+        if before.channel in temp_channels:
+            await sleep(10)
+
+            if before.channel.members < 0:
+                await before.channel.delete()
+                try:
+                    temp_channels.remove(before.channel)
+                except ValueError:
+                    pass
 
     async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
         if not self.intents.reactions:
@@ -206,6 +256,8 @@ if __name__ == "__main__":
     intents.members = True
     intents.reactions = True
     intents.message_content = True
+    intents.voice_states = True
+    intents.chan
 
     client = Client(intents=intents)
     client.run(SETTINGS["TOKEN"])
