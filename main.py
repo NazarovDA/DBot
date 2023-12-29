@@ -181,7 +181,7 @@ class Client(discord.Client):
                 def check_names(temp_names: list):
                     for vc in temp_channels:
                         if vc.name[6:] in temp_names:
-                            temp_names.remove(vc.name)
+                            temp_names.remove(vc.name[6:])
 
                 initialChannel = after.channel
                 guild = initialChannel.guild
