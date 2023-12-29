@@ -174,7 +174,7 @@ class Client(discord.Client):
                 await message.reply(roll_a_dice(*list(map(lambda x: int(x), message.content.split(" ")[1].split("d")))))
             if message.content.startswith("!info"):
                 await message.reply(
-                    f"You are {message.author.display_name} \ {message.author.global_name}"
+                    f"You are {message.author.display_name} \ {message.author.name}"
                 )
             if message.content.startswith("!race"):
                 await message.channel.send(view=RollADiceView())
