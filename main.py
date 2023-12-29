@@ -84,12 +84,17 @@ VOTINGS = {
 }
 
 channelNames = [
-    "test1",
-    "test2",
-    "test3",
-    "test4",
-    "test5",
-    "test6",
+    "Amok 💣",
+    "Beer 🍻",
+    "Chaos 🦖",
+    "Diablo 😈",
+    "Echo 📢",
+    "Foxtrot 📢",
+    "Golf 📢",
+    "Hotel 📢",
+    "India 📢",
+    "Juliet 📢",
+    "Kilo 📢",
 ]
 
 from discord.ui import View, button
@@ -179,19 +184,22 @@ class Client(discord.Client):
                 for vc in temp_channels:
                     if vc.name in temp_names:
                         temp_names.remove(vc.name)
+                try:
+                    VC = await guild.create_voice_channel(
+                        name = "Party " + choice(channelNames), 
+                        reason = None,
+                        category=initialChannel.category,
+                        position=initialChannel.position + 1
+                    )
 
-                VC = await guild.create_voice_channel(
-                    name = "Party" + choice(channelNames), 
-                    reason = None,
-                    category=initialChannel.category,
-                    position=initialChannel.position + 1
-                )
+                    await member.move_to(
+                        VC
+                    )
 
-                await member.move_to(
-                    VC
-                )
-
-                temp_channels.append(VC)
+                    temp_channels.append(VC)
+                except IndexError as e:
+                    print(e)
+                    member.move_to(channel=guild.get_channel(962652775395774477))
 
         if before.channel in temp_channels:
             await sleep(2)
