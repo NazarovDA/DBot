@@ -97,7 +97,7 @@ coolNames = [
     "Amok 💣",
     "Beer 🍻",
     "Chaos 🦖",
-    "Diablo 😈",
+    "Devils 😈",
 ]
 
 from discord.ui import View, button
@@ -194,7 +194,7 @@ class Client(discord.Client):
                 check_names(temp_names)
 
                 try:
-                    print(initialChannel.category)
+                    # print(initialChannel.category)
                     VC = await guild.create_voice_channel(
                         name = "Party " + choice(temp_names), 
                         reason = None,
