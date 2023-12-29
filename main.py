@@ -83,11 +83,7 @@ VOTINGS = {
     }
 }
 
-channelNames = [
-    "Amok 💣",
-    "Beer 🍻",
-    "Chaos 🦖",
-    "Diablo 😈",
+uncoolNames = [
     "Echo 📢",
     "Foxtrot 📢",
     "Golf 📢",
@@ -95,6 +91,13 @@ channelNames = [
     "India 📢",
     "Juliet 📢",
     "Kilo 📢",
+]
+
+coolNames = [
+    "Amok 💣",
+    "Beer 🍻",
+    "Chaos 🦖",
+    "Diablo 😈",
 ]
 
 from discord.ui import View, button
@@ -175,18 +178,24 @@ class Client(discord.Client):
         
         if after.channel:
             if after.channel.id == 1089216373542109265: 
+                def check_names(temp_names: list):
+                    for vc in temp_channels:
+                        if vc.name in temp_names:
+                            temp_names.remove(vc.name)
 
                 initialChannel = after.channel
-
                 guild = initialChannel.guild
 
-                temp_names = channelNames[:]
-                for vc in temp_channels:
-                    if vc.name in temp_names:
-                        temp_names.remove(vc.name)
+                temp_names = coolNames[:]
+                check_names(temp_names)
+                
+                if len(temp_names) == 0:
+                    temp_names += uncoolNames[:]
+                check_names(temp_names)
+
                 try:
                     VC = await guild.create_voice_channel(
-                        name = "Party " + choice(channelNames), 
+                        name = "Party " + choice(temp_names), 
                         reason = None,
                         category=initialChannel.category,
                         position=initialChannel.position + 1
