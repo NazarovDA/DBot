@@ -257,7 +257,6 @@ if __name__ == "__main__":
     intents.reactions = True
     intents.message_content = True
     intents.voice_states = True
-    intents.chan
 
     client = Client(intents=intents)
     client.run(SETTINGS["TOKEN"])
