@@ -180,7 +180,7 @@ class Client(discord.Client):
             if after.channel.id == 1089216373542109265: 
                 def check_names(temp_names: list):
                     for vc in temp_channels:
-                        if vc.name in temp_names:
+                        if vc.name[6:] in temp_names:
                             temp_names.remove(vc.name)
 
                 initialChannel = after.channel
