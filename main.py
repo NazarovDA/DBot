@@ -65,8 +65,8 @@ VOTINGS = {
     },
     # Fleurino's message about av. gear score
     1000434698201346068: {
-        "🥇": 1024326266763100253, # expeditioner role
-        "🏆": 1001095283372998716, # mutator role
+        "🥇": 1024326266763100253, # expeditioners role (merged mutators in)
+        "🏆": 1180466569361502238, # raiders role
         "👑": 1084092935647264818, # chestrunner role
         "⚔️": 1092217764678221897, # pvp role
     },
