@@ -232,7 +232,7 @@ class Client(discord.Client):
             ]
 
         await channel.send(
-            f"**{payload.user.display_name}** has left." +\
+            f"**{payload.user.display_name}**{f'({payload.user.global_name})' if payload.user.global_name else ''} has left." +\
             f"{' They were ' + ', '.join(roles) + '.' if roles.__len__() > 0 else ''}"
         )
 
