@@ -168,31 +168,30 @@ class Client(discord.Client):
     async def on_voice_state_update(self, member: Member, before: VoiceState, after: VoiceState):
         if not self.intents.voice_states: print("voice state is not allowed")
         
-        if not after.channel: return
+        if after.channel:
+            if after.channel.id == 1089216373542109265: 
 
-        if after.channel.id == 1089216373542109265: 
+                initialChannel = after.channel
 
-            initialChannel = after.channel
+                guild = initialChannel.guild
 
-            guild = initialChannel.guild
+                temp_names = channelNames[:]
+                for vc in temp_channels:
+                    if vc.name in temp_names:
+                        temp_names.remove(vc.name)
 
-            temp_names = channelNames[:]
-            for vc in temp_channels:
-                if vc.name in temp_names:
-                    temp_names.remove(vc.name)
+                VC = await guild.create_voice_channel(
+                    name = "Party" + choice(channelNames), 
+                    reason = None,
+                    category=initialChannel.category,
+                    position=initialChannel.position + 1
+                )
 
-            VC = await guild.create_voice_channel(
-                name = "Party" + choice(channelNames), 
-                reason = None,
-                category=initialChannel.category,
-                position=initialChannel.position + 1
-            )
+                await member.move_to(
+                    VC
+                )
 
-            await member.move_to(
-                VC
-            )
-
-            temp_channels.append(VC)
+                temp_channels.append(VC)
 
         if before.channel in temp_channels:
             await sleep(10)
