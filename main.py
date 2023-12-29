@@ -232,7 +232,8 @@ class Client(discord.Client):
             ]
 
         await channel.send(
-            content = (f"**{payload.user.nick}** ({payload.user.name}#{payload.user.discriminator})" if payload.user.nick else f"**{payload.user.name}#{payload.user.discriminator}**") + " has left." + f"{' They were ' + ', '.join(roles) + '.' if roles.__len__() > 0 else ''}"
+            f"**{payload.user.display_name}**" +\
+            f"{' They were ' + ', '.join(roles) + '.' if roles.__len__() > 0 else ''}"
         )
 
     async def on_error(self, event, *args, **kwargs):
