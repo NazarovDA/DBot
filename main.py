@@ -196,7 +196,7 @@ class Client(discord.Client):
         if before.channel in temp_channels:
             await sleep(10)
 
-            if before.channel.members < 0:
+            if len(before.channel.members) < 0:
                 await before.channel.delete()
                 try:
                     temp_channels.remove(before.channel)
