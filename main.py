@@ -199,8 +199,8 @@ class Client(discord.Client):
                 await before.channel.delete()
                 try:
                     temp_channels.remove(before.channel)
-                except ValueError:
-                    pass
+                except ValueError as e:
+                    print(e)
 
     async def on_raw_reaction_remove(self, payload: RawReactionActionEvent):
         if not self.intents.reactions:
