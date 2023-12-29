@@ -168,6 +168,8 @@ class Client(discord.Client):
     async def on_voice_state_update(self, member: Member, before: VoiceState, after: VoiceState):
         if not self.intents.voice_states: print("voice state is not allowed")
         
+        if not after.channel: return
+
         if after.channel.id == 1089216373542109265: 
 
             initialChannel = after.channel
