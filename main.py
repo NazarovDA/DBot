@@ -172,10 +172,10 @@ class Client(discord.Client):
         if message.content.startswith("!"):
             if DICE_ROLL_REGEX.fullmatch(message.content):
                 await message.reply(roll_a_dice(*list(map(lambda x: int(x), message.content.split(" ")[1].split("d")))))
-            # if message.content.startswith("!info"):
-                # await message.reply(
-                    # f"You are: {message.author.display_name}#{message.author.discriminator} at this channel"
-                # )
+            if message.content.startswith("!info"):
+                await message.reply(
+                    f"You are {message.author.display_name} \ {message.author.global_name}"
+                )
             if message.content.startswith("!race"):
                 await message.channel.send(view=RollADiceView())
             if message.channel.id == TOURNAMENT_CHANNEL_ID:
