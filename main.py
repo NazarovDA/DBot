@@ -14,6 +14,9 @@ from discord import (
 )
 
 import traceback
+import argparse
+
+from datetime import datetime as dt
 
 from random import shuffle, choice
 
@@ -240,6 +243,8 @@ class Client(discord.Client):
             )
 
     async def on_raw_member_remove(self, payload: RawMemberRemoveEvent):
+        print(f"`on_raw_member_remove` was called at {dt.now()} with arg: {payload.user}")
+        log.info(f"`on_raw_member_remove` was called at {dt.now()} with arg: {payload.user}")
         # intent.members is required
         if not self.intents.members:
             print("Members processing is not allowed")
