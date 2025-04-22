@@ -59,31 +59,27 @@ VOTINGS = {
     # Fleurino's message about main builds
     983857007343857705: {
         "🛡️": 1000435488664072193, # tank
-        "🗡️": 1000435920044044339, # dps role
         "💊": 1000435736690040852, # healer
+        "🗡️": 1000435920044044339, # dps role
     },
-    # Fleurino's message about PvP/PvE
+    # Fleurino's message about content interest
     988482120857026650: {
-        "😇": None, # i do not know what to do
-        "⚔️": None, # i do not know what to do
-        "😈": None, # i do not know what to do
+        "🥇": 1024326266763100253, # mutations
+        "🐉": 1292131496483881043, # hive
+        "🪱": 1180466569361502238, # wurm
+        "🤑": 1084092935647264818, # chestrun
+        "⚔️": 1092217764678221897, # pvp
     },
-    # Fleurino's message about av. gear score
+    # Fleurino's message about crafting capabilities
     1000434698201346068: {
-        "🥇": 1024326266763100253, # expeditioners role (merged mutators in)
-        "🏆": 1180466569361502238, # raiders role
-        "👑": 1084092935647264818, # chestrunner role
-        "⚔️": 1092217764678221897, # pvp role
-    },
-    1046909706486161548: {
-        "🗡️":  1046908760368623788, # Weaponsmith
+        "🗡️": 1046908760368623788, # Weaponsmith
         "👕": 1046909094440734771, # Armorer
         "⛏️": 1046909175034294354, # Engineer
         "💍": 1046915774310264832, # Jewelcrafter
         "✨": 1046909301500948561, # Arcanist
         "🪑": 1046909240800981132, # Furnisher
         "🧑‍🍳": 1046909379783438399, # Chef
-    }
+    },
 }
 
 uncoolNames = [
