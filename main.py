@@ -258,11 +258,11 @@ class Client(discord.Client):
                     reaction: Reaction
                     await reaction.remove(payload.user)
             except discord.NotFound: 
-                channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. Message {voting} was not found in #{votingsChannel.name}") 
+                await channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. Message {voting} was not found in #{votingsChannel.name}") 
             except discord.Forbidden: 
-                channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. The bot is not allowed to work with {voting} in #{votingsChannel.name}") 
+                await channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. The bot is not allowed to work with {voting} in #{votingsChannel.name}") 
             except discord.HTTPException as e: 
-                channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. Discord API returned an error {e.status} — {e.text}") 
+                await channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. Discord API returned an error {e.status} — {e.text}") 
 
         roles = [
                 self.guilds[0].get_role(role).name
