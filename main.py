@@ -252,10 +252,17 @@ class Client(discord.Client):
 
         votingsChannel: TextChannel = self.get_channel(VOTINGS_CHANNEL)
         for voting in VOTINGS:
-            message: Message = await votingsChannel.fetch_message(voting)
-            for reaction in message.reactions:
-                reaction: Reaction
-                await reaction.remove(payload.user)
+            try:
+                message: Message = await votingsChannel.fetch_message(voting)
+                for reaction in message.reactions:
+                    reaction: Reaction
+                    await reaction.remove(payload.user)
+            except discord.NotFound: 
+                await channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. Message {voting} was not found in #{votingsChannel.name}") 
+            except discord.Forbidden: 
+                await channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. The bot is not allowed to work with {voting} in #{votingsChannel.name}") 
+            except discord.HTTPException as e: 
+                await channel.send(f"An error occurred when deleting user {payload.user.display_name} roles. Discord API returned an error {e.status} — {e.text}") 
 
         roles = [
                 self.guilds[0].get_role(role).name
@@ -269,7 +276,13 @@ class Client(discord.Client):
         )
 
     async def on_error(self, event, *args, **kwargs):
-        log.error(f"{event=}\n{args=}\n{kwargs=}\n--TRACEBACK--\n{traceback.format_exc()}\n\n")
+        error_message = f"{event=}\n{args=}\n{kwargs=}\n--TRACEBACK--\n{traceback.format_exc()}\n\n"
+        log.error(error_message)
+        channel: TextChannel = self.get_channel(
+            1089216328725962853 # 'test-text' channel
+        )
+
+        await channel.send(f"\nUnexpected error: {error_message}")
 
 if __name__ == "__main__":
     intents = discord.Intents.default()
